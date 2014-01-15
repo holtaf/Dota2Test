@@ -56,20 +56,41 @@ public class Item {
             throw new IllegalArgumentException("Provided item has components, should call createItemWithComponentsFromJSON method instead");
         }
 
-        return new Item(name, itemJson.getInt(ITEM_ID), itemJson.getString(ITEM_IMAGE),
-                itemJson.getString(ITEM_DISPLAY_NAME), itemJson.getString(ITEM_QUALIFIER), itemJson.getInt(ITEM_COST),
-                itemJson.getString(ITEM_DESCRIPTION), itemJson.getString(ITEM_NOTES), itemJson.getString(ITEM_ATTRIBUTES),
-                itemJson.getInt(ITEM_MANA_COST), itemJson.getInt(ITEM_COOLDOWN), itemJson.getString(ITEM_LORE), null, false);
-    }
+        int cooldown = -1;
+        int manacost = -1; // manacost and cooldown can be number or false so we'll get that with try - catch
+        try {
+            manacost = itemJson.getInt(ITEM_MANA_COST);
+        } catch (JSONException e) {
+        }
 
-    public static Item createItemWithComponentsFromJSON(JSONObject itemJson, String name, List<Item> components) throws JSONException {
-        if (itemJson.getBoolean(ITEM_CREATED)) {
-            throw new IllegalArgumentException("Provided item has components, should call createItemWithComponentsFromJSON method instead");
+        try {
+            cooldown = itemJson.getInt(ITEM_COOLDOWN);
+        } catch (JSONException e) {
         }
 
         return new Item(name, itemJson.getInt(ITEM_ID), itemJson.getString(ITEM_IMAGE),
                 itemJson.getString(ITEM_DISPLAY_NAME), itemJson.getString(ITEM_QUALIFIER), itemJson.getInt(ITEM_COST),
                 itemJson.getString(ITEM_DESCRIPTION), itemJson.getString(ITEM_NOTES), itemJson.getString(ITEM_ATTRIBUTES),
-                itemJson.getInt(ITEM_MANA_COST), itemJson.getInt(ITEM_COOLDOWN), itemJson.getString(ITEM_LORE), components, true);
+                manacost, cooldown, itemJson.getString(ITEM_LORE), null, false);
+    }
+
+    public static Item createItemWithComponentsFromJSON(JSONObject itemJson, String name, List<Item> components) throws JSONException {
+
+        int cooldown = -1;
+        int manacost = -1; // manacost and cooldown can be number or false so we'll get that with try - catch
+        try {
+            manacost = itemJson.getInt(ITEM_MANA_COST);
+        } catch (JSONException e) {
+        }
+
+        try {
+            cooldown = itemJson.getInt(ITEM_COOLDOWN);
+        } catch (JSONException e) {
+        }
+
+        return new Item(name, itemJson.getInt(ITEM_ID), itemJson.getString(ITEM_IMAGE),
+                itemJson.getString(ITEM_DISPLAY_NAME), itemJson.getString(ITEM_QUALIFIER), itemJson.getInt(ITEM_COST),
+                itemJson.getString(ITEM_DESCRIPTION), itemJson.getString(ITEM_NOTES), itemJson.getString(ITEM_ATTRIBUTES),
+                manacost, cooldown, itemJson.getString(ITEM_LORE), components, true);
     }
 }

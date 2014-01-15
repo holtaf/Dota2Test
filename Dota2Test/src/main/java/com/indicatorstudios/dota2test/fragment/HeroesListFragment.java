@@ -10,17 +10,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.indicatorstudios.dota2test.MainActivity;
 import com.indicatorstudios.dota2test.R;
 import com.indicatorstudios.dota2test.data.hero.Hero;
-import com.indicatorstudios.dota2test.util.FileUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class HeroesListFragment extends Fragment {
@@ -34,26 +30,7 @@ public class HeroesListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity()).build();
-        ImageLoader.getInstance().init(config);
-
-        try {
-            JSONObject heroData = new JSONObject(FileUtils.getTextFromAssetFile(getActivity().getAssets(), "herodata.json"));
-            List<Hero> heroList = new ArrayList<>();
-
-            Iterator<String> iterator = heroData.keys();
-
-            while (iterator.hasNext()) {
-                String key = iterator.next();
-                JSONObject heroJSON = heroData.getJSONObject(key);
-
-                heroList.add(Hero.createFromJSON(key, heroJSON));
-            }
-
-            adapter.setHeroes(heroList);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        adapter.setHeroes(((MainActivity) getActivity()).getHeroList());
     }
 
     @Override
