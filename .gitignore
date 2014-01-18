@@ -1,5 +1,4 @@
-<<<<<<< .merge_file_7qpFdD
-# built application files
+*# built application files
 *.apk
 *.ap_
 
@@ -28,6 +27,17 @@ proguard/
 *.ipr
 .idea/
 .gradle/
+
+gradle/
+
+gradlew
+
+Dota2Test/build/
+
+*.gradle
+
+gradlew.bat
+
 local.properties
 
 */*/build/
