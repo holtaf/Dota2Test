@@ -26,7 +26,7 @@ public final class JSONConstants {
     public static final String ITEM_COST = "cost";
     public static final String ITEM_DESCRIPTION = "desc";
     public static final String ITEM_NOTES = "notes";
-    public static final String ITEM_ATTRIBUTES = "attribs";
+    public static final String ITEM_ATTRIBUTES = "attrib";
     public static final String ITEM_MANA_COST = "mc";
     public static final String ITEM_COOLDOWN = "cd";
     public static final String ITEM_LORE = "lore";

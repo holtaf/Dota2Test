@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,10 +29,17 @@ public class Dota2Data {
         loadItemData(res);
     }
 
+    public List<Hero> getHeroList() {
+        return Collections.unmodifiableList(heroList);
+    }
+
+    public List<Item> getItemList() {
+        return Collections.unmodifiableList(itemList);
+    }
+
     private void loadHeroData(Resources res) {
         try {
             JSONObject heroData = new JSONObject(FileUtils.getTextFromAssetFile(res.getAssets(), HERO_DATA_JSON_FILENAME));
-            List<Hero> heroList = new ArrayList<>();
 
             Iterator<String> iterator = heroData.keys();
 
@@ -58,11 +66,7 @@ public class Dota2Data {
                 String key = iterator.next();
                 JSONObject itemJSON = itemData.getJSONObject(key);
 
-                if (!itemJSON.getBoolean(JSONConstants.ITEM_CREATED)) {
-                    loadedItemDatas.put(key, Item.createSimpleItemFromJSON(itemJSON, key));
-                } else {
-                    JSONArray components = itemJSON.getJSONArray(JSONConstants.ITEM_COMPONENTS);
-                }
+                itemList.add(loadItem(itemData, loadedItemDatas, key, itemJSON));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -85,6 +89,9 @@ public class Dota2Data {
                     loadedItemDatas.put(component, loadItem(globalItemJSON, loadedItemDatas, component, globalItemJSON.getJSONObject(component)));
                 }
             }
+
+            return Item.createItemWithComponentsFromJSON(itemJSON, key, componentList);
         }
     }
+
 }
